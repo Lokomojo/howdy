@@ -105,7 +105,8 @@ class ffmpeg_reader:
 			self.init_camera = False
 			self.video = ()
 			self.record(self.numframes)
-			return 0, self.video
+			self.num_frames_read += 1
+			return True, self.video[self.num_frames_read]
 
 		# If we are called and self.video is empty, we should record self.numframes to fill the video buffer
 		if self.video == ():
@@ -122,7 +123,7 @@ class ffmpeg_reader:
 		self.num_frames_read += 1
 
 		# Return a single frame of video
-		return 0, self.video[self.num_frames_read]
+		return True, self.video[self.num_frames_read]
 
 	def release(self):
 		""" Empty our array. If we had a hold on the camera, we would give it back here. """
