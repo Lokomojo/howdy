@@ -9,9 +9,14 @@ timings = {
 	"st": time.time()
 }
 
+# Limit OpenMP to a single thread, has to be set before dlib and cv2 are imported
+# cv2 enables dynamic OpenMP threads, which can leave OpenBLAS waiting forever
+# on threads that were never started when the system is under load
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+
 # Import required modules
 import sys
-import os
 import json
 import configparser
 import dlib
